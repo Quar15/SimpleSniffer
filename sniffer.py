@@ -8,7 +8,7 @@ import scapy.layers.http as scapy_http
 
 from colorama import init
 
-from config import AP_IP, SUBNET_MASK, COUNT_CONN, \
+from config import AP_IP, SUBNET_MASK, AP_IFACE, COUNT_CONN, \
                     RED, GREEN, RESET, \
                     KEYWORDS
 
@@ -71,7 +71,7 @@ def main():
     # Initialize colorama
     init()
     # Start sniffing
-    sniff(filter=f"ip and ( port 80 or port 443 ) and not ip src {AP_IP}", prn=handle_package)
+    sniff(filter=f"ip and ( port 80 or port 443 ) and not ip src {AP_IP}", prn=handle_package, iface=AP_IFACE)
     if COUNT_CONN:
         # Print out packet count per A <--> Z address pair
         print("\n".join(f"{f'{key[0]} <--> {key[1]}'}: {count}" for key, count in packet_counts.items()))
